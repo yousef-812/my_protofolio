@@ -32,6 +32,9 @@ export default function Navbar() {
           <a href="#projects" onClick={handleScroll('projects')} className="hover:text-white transition-colors duration-200">
             Projects
           </a>
+          <a href="#contact" onClick={handleScroll('contact')} className="hover:text-white transition-colors duration-200">
+            Request Service
+          </a>
         </div>
 
         {/* Contact CTA */}
