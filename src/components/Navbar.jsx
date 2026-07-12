@@ -21,8 +21,8 @@ export default function Navbar() {
           yousef.dev
         </a>
 
-        {/* Nav Links */}
-        <div className="flex gap-8 text-sm font-medium text-gray-300">
+        {/* Nav Links - Hidden on Mobile/Tablet, visible on Desktop */}
+        <div className="hidden md:flex gap-8 text-sm font-medium text-gray-300">
           <a href="#home" onClick={handleScroll('home')} className="hover:text-white transition-colors duration-200">
             Home
           </a>
