@@ -14,7 +14,15 @@ export default function Reviews() {
   useEffect(() => {
     const stored = localStorage.getItem('yousef_public_reviews');
     if (stored) {
-      setReviews(JSON.parse(stored));
+      const parsed = JSON.parse(stored);
+      // Programmatically purge old seed reviews if they exist in user's browser localStorage
+      const cleaned = parsed.filter(r => r.id !== 'seed-1' && r.id !== 'seed-2' && !r.id.startsWith('seed-'));
+      if (cleaned.length !== parsed.length) {
+        localStorage.setItem('yousef_public_reviews', JSON.stringify(cleaned));
+        setReviews(cleaned);
+      } else {
+        setReviews(parsed);
+      }
     } else {
       localStorage.setItem('yousef_public_reviews', JSON.stringify([]));
       setReviews([]);
