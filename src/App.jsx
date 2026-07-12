@@ -3,7 +3,6 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ImpressiveWorks from './components/ImpressiveWorks';
 import Skills from './components/Skills';
-import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ProjectModal from './components/ProjectModal';
@@ -18,7 +17,6 @@ function App() {
         <Hero />
         <ImpressiveWorks onSelectProject={setSelectedProject} />
         <Skills />
-        <Projects onSelectProject={setSelectedProject} />
         <Contact />
       </main>
       <Footer />

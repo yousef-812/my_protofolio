@@ -160,14 +160,25 @@ export default function ImpressiveWorks({ onSelectProject }) {
   ];
 
   return (
-    <section className="py-20 px-6 bg-[#F4F4F6] text-[#1E1E1E] flex flex-col items-center border-t border-zinc-200">
+    <section id="projects" className="py-20 px-6 bg-[#F4F4F6] text-[#1E1E1E] flex flex-col items-center border-t border-zinc-205">
       <div className="max-w-4xl w-full">
-        {/* Heading */}
-        <h2 className="text-3xl font-extrabold tracking-tight font-display mb-12 text-[#1E1E1E]">
-          Impressive Works
-        </h2>
+        
+        {/* Heading Section (matching Figma details) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start mb-16">
+          {/* Left Column: Bullet point + Title */}
+          <div className="flex gap-4 items-center">
+            <span className="w-2.5 h-2.5 rounded-full bg-zinc-800 flex-shrink-0"></span>
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight font-display text-[#1E1E1E]">
+              Impressive Works
+            </h2>
+          </div>
+          {/* Right Column: Capitalized subtitle info */}
+          <p className="text-[10px] md:text-xs text-zinc-500 font-bold uppercase tracking-widest leading-relaxed pl-0 md:pl-6 pt-1">
+            HERE'S A SELECTION OF PROJECTS THAT SHOWCASE MY PASSION FOR DESIGN AND DEVELOPMENT, REFLECTING CREATIVITY AND INNOVATION.
+          </p>
+        </div>
 
-        {/* 2-Column Grid (matches Figma) */}
+        {/* 2-Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
             <div 
