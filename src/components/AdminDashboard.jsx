@@ -160,6 +160,13 @@ export default function AdminDashboard({ onClose }) {
                     <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-zinc-950 border border-zinc-900 text-zinc-400">
                       {req.service}
                     </span>
+
+                    {req.budget && (
+                      <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
+                        Budget: {req.budget}
+                      </span>
+                    )}
+
                     <span className="text-[10px] text-zinc-500">{new Date(req.date).toLocaleDateString()}</span>
                   </div>
                   <p className="text-xs md:text-sm text-zinc-350 leading-relaxed max-w-2xl">{req.message}</p>

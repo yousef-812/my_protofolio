@@ -17,7 +17,14 @@ const LinkedinIcon = (props) => (
 );
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', service: 'SaaS Platform', message: '' });
+  const [formData, setFormData] = useState({ 
+    name: '', 
+    email: '', 
+    phone: '', 
+    service: 'SaaS Platform', 
+    budget: 'Under $1,000',
+    message: '' 
+  });
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState('');
 
@@ -48,7 +55,14 @@ export default function Contact() {
 
     // Show success state
     setSubmitted(true);
-    setFormData({ name: '', email: '', phone: '', service: 'SaaS Platform', message: '' });
+    setFormData({ 
+      name: '', 
+      email: '', 
+      phone: '', 
+      service: 'SaaS Platform', 
+      budget: 'Under $1,000',
+      message: '' 
+    });
 
     setTimeout(() => {
       setSubmitted(false);
@@ -157,19 +171,37 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="font-bold text-zinc-700">Service Category</label>
-                <select 
-                  value={formData.service}
-                  onChange={(e) => setFormData({...formData, service: e.target.value})}
-                  className="w-full px-3 py-2 bg-white border border-zinc-350 rounded-xl focus:border-indigo-500 focus:outline-none text-zinc-800 text-xs font-medium cursor-pointer"
-                >
-                  <option>SaaS Platform (Mediator)</option>
-                  <option>ERP System (Ledger &amp; POs)</option>
-                  <option>LMS Platform (WebRTC Video)</option>
-                  <option>E-Commerce Store (Angular SSR)</option>
-                  <option>Custom Web Application</option>
-                </select>
+              {/* Grid for Service Category & Estimated Budget */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="font-bold text-zinc-700">Service Category</label>
+                  <select 
+                    value={formData.service}
+                    onChange={(e) => setFormData({...formData, service: e.target.value})}
+                    className="w-full px-3 py-2 bg-white border border-zinc-350 rounded-xl focus:border-indigo-500 focus:outline-none text-zinc-800 text-xs font-medium cursor-pointer"
+                  >
+                    <option>SaaS Platform (Mediator)</option>
+                    <option>ERP System (Ledger &amp; POs)</option>
+                    <option>LMS Platform (WebRTC Video)</option>
+                    <option>E-Commerce Store (Angular SSR)</option>
+                    <option>Custom Web Application</option>
+                  </select>
+                </div>
+                
+                <div className="space-y-1.5">
+                  <label className="font-bold text-zinc-700">Project Budget / Salary</label>
+                  <select 
+                    value={formData.budget}
+                    onChange={(e) => setFormData({...formData, budget: e.target.value})}
+                    className="w-full px-3 py-2 bg-white border border-zinc-350 rounded-xl focus:border-indigo-500 focus:outline-none text-zinc-800 text-xs font-medium cursor-pointer"
+                  >
+                    <option>Under $1,000</option>
+                    <option>$1,000 - $3,000</option>
+                    <option>$3,000 - $5,000</option>
+                    <option>$5,000 - $10,000</option>
+                    <option>$10,000+</option>
+                  </select>
+                </div>
               </div>
 
               <div className="space-y-1.5">
