@@ -141,7 +141,22 @@ export default function AdminDashboard({ onClose }) {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2.5 flex-wrap">
                     <span className="text-sm font-bold text-white font-display">{req.name}</span>
-                    <a href={`mailto:${req.email}`} className="text-xs text-indigo-400 hover:underline">{req.email}</a>
+                    
+                    {req.email && (
+                      <a href={`mailto:${req.email}`} className="text-xs text-indigo-400 hover:underline">{req.email}</a>
+                    )}
+                    
+                    {req.phone && (
+                      <a 
+                        href={`https://wa.me/${req.phone.replace(/[^0-9]/g, '')}`} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-xs text-emerald-400 hover:underline"
+                      >
+                        WhatsApp: {req.phone}
+                      </a>
+                    )}
+
                     <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-zinc-950 border border-zinc-900 text-zinc-400">
                       {req.service}
                     </span>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, MessageSquare, Send, Check } from 'lucide-react';
+import { Mail, MessageSquare, Send, Check, AlertCircle } from 'lucide-react';
 
 const GithubIcon = (props) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -17,11 +17,20 @@ const LinkedinIcon = (props) => (
 );
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', service: 'SaaS Platform', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', service: 'SaaS Platform', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [validationError, setValidationError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Validation: At least email or phone must be provided
+    if (!formData.email.trim() && !formData.phone.trim()) {
+      setValidationError('Please provide at least one contact method: Email or WhatsApp.');
+      return;
+    }
+
+    setValidationError('');
     
     // Create new request object
     const newRequest = {
@@ -39,7 +48,7 @@ export default function Contact() {
 
     // Show success state
     setSubmitted(true);
-    setFormData({ name: '', email: '', service: 'SaaS Platform', message: '' });
+    setFormData({ name: '', email: '', phone: '', service: 'SaaS Platform', message: '' });
 
     setTimeout(() => {
       setSubmitted(false);
@@ -112,18 +121,20 @@ export default function Contact() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4 text-xs md:text-sm">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="font-bold text-zinc-700">Your Name</label>
-                  <input 
-                    type="text" 
-                    placeholder="John Doe" 
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-3 py-2 bg-white border border-zinc-350 rounded-xl focus:border-indigo-500 focus:outline-none text-zinc-800 text-xs"
-                    required
-                  />
-                </div>
+              <div className="space-y-1.5">
+                <label className="font-bold text-zinc-700">Your Name</label>
+                <input 
+                  type="text" 
+                  placeholder="John Doe" 
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  className="w-full px-3 py-2 bg-white border border-zinc-350 rounded-xl focus:border-indigo-500 focus:outline-none text-zinc-800 text-xs"
+                  required
+                />
+              </div>
+
+              {/* Grid for Email & Phone (WhatsApp) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="font-bold text-zinc-700">Email Address</label>
                   <input 
@@ -132,7 +143,16 @@ export default function Contact() {
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                     className="w-full px-3 py-2 bg-white border border-zinc-350 rounded-xl focus:border-indigo-500 focus:outline-none text-zinc-800 text-xs"
-                    required
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="font-bold text-zinc-700">WhatsApp / Phone</label>
+                  <input 
+                    type="tel" 
+                    placeholder="+20 123 456 7890" 
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    className="w-full px-3 py-2 bg-white border border-zinc-350 rounded-xl focus:border-indigo-500 focus:outline-none text-zinc-800 text-xs"
                   />
                 </div>
               </div>
@@ -163,6 +183,13 @@ export default function Contact() {
                   required
                 ></textarea>
               </div>
+
+              {validationError && (
+                <p className="text-xs text-rose-600 flex items-center gap-1.5 font-medium bg-rose-50 p-2.5 rounded-xl border border-rose-100 animate-shake">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                  {validationError}
+                </p>
+              )}
 
               <button 
                 type="submit"
