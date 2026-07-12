@@ -4,6 +4,14 @@ import { Home, User, Cpu, FolderGit2, Mail, ArrowUpRight } from 'lucide-react';
 export default function Hero() {
   const avatarUrl = 'https://github.com/yousef-812.png';
 
+  const handleScroll = (id) => (e) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="home" className="pt-24 pb-12 px-6 bg-[#F4F4F6] text-[#1E1E1E] flex flex-col items-center">
       <div className="max-w-4xl w-full">
@@ -45,6 +53,7 @@ export default function Hero() {
           <div className="absolute right-6 md:right-10 top-1/2 -translate-y-1/2 z-10">
             <a 
               href="#projects" 
+              onClick={handleScroll('projects')}
               className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/30 hover:bg-white/40 hover:text-indigo-600 flex items-center justify-center text-zinc-800 transition-all duration-200"
             >
               <ArrowUpRight className="w-5 h-5" />
@@ -54,19 +63,19 @@ export default function Hero() {
           {/* BOTTOM: Floating Capsule Dock Menu (matching Figma screenshot) */}
           <div className="w-full flex justify-center z-10 pb-2">
             <div className="flex items-center gap-5 px-5 py-2.5 bg-black/60 border border-white/10 backdrop-blur-lg rounded-full shadow-xl">
-              <a href="#home" title="Home" className="text-white/70 hover:text-white transition-colors duration-200">
+              <a href="#home" onClick={handleScroll('home')} title="Home" className="text-white/70 hover:text-white transition-colors duration-200">
                 <Home className="w-4 h-4" />
               </a>
               <span className="w-[1px] h-3.5 bg-white/10"></span>
-              <a href="#skills" title="Skills" className="text-white/70 hover:text-white transition-colors duration-200">
+              <a href="#skills" onClick={handleScroll('skills')} title="Skills" className="text-white/70 hover:text-white transition-colors duration-200">
                 <Cpu className="w-4 h-4" />
               </a>
               <span className="w-[1px] h-3.5 bg-white/10"></span>
-              <a href="#projects" title="Projects" className="text-white/70 hover:text-white transition-colors duration-200">
+              <a href="#projects" onClick={handleScroll('projects')} title="Projects" className="text-white/70 hover:text-white transition-colors duration-200">
                 <FolderGit2 className="w-4 h-4" />
               </a>
               <span className="w-[1px] h-3.5 bg-white/10"></span>
-              <a href="#contact" title="Contact" className="text-white/70 hover:text-white transition-colors duration-200">
+              <a href="#contact" onClick={handleScroll('contact')} title="Contact" className="text-white/70 hover:text-white transition-colors duration-200">
                 <Mail className="w-4 h-4" />
               </a>
             </div>
@@ -91,6 +100,7 @@ export default function Hero() {
             </p>
             <a 
               href="#skills" 
+              onClick={handleScroll('skills')}
               className="inline-flex items-center gap-1.5 mt-4 text-xs font-bold uppercase tracking-wider text-zinc-900 border-b border-zinc-900 pb-0.5 w-fit hover:text-indigo-600 hover:border-indigo-600 transition-all duration-200"
             >
               More about me 
