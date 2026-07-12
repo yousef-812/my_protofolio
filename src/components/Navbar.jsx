@@ -36,18 +36,15 @@ export default function Navbar() {
           <a href="#projects" onClick={handleScroll('projects')} className="hover:text-white transition-colors duration-200">
             Projects
           </a>
-          <a href="#contact" onClick={handleScroll('contact')} className="hover:text-white transition-colors duration-200">
-            Request Service
-          </a>
         </div>
 
-        {/* Contact CTA - Desktop View */}
+        {/* Request Service CTA - Desktop View */}
         <a
           href="#contact"
           onClick={handleScroll('contact')}
-          className="hidden md:inline-flex px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white bg-indigo-600 hover:bg-indigo-500 rounded-full transition-all duration-200 shadow-lg shadow-indigo-500/20"
+          className="hidden md:inline-flex px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-indigo-600 hover:bg-indigo-500 rounded-full transition-all duration-200 shadow-lg shadow-indigo-500/20"
         >
-          Let's Talk
+          Request Service
         </a>
 
         {/* Hamburger Menu Toggle Button - Mobile View */}
@@ -61,41 +58,34 @@ export default function Navbar() {
 
       {/* Mobile Nav Drawer Overlay */}
       {isOpen && (
-        <div className="absolute top-full left-0 w-full bg-[#121214]/95 border-b border-zinc-800/80 backdrop-blur-lg flex flex-col p-6 space-y-4 md:hidden animate-slideDown z-10">
+        <div className="absolute top-full left-0 w-full bg-[#121214]/98 border-b border-zinc-800/90 backdrop-blur-xl flex flex-col p-6 space-y-4 md:hidden animate-slideDown z-10">
           <a 
             href="#home" 
             onClick={handleScroll('home')} 
-            className="text-sm font-medium text-gray-350 hover:text-white py-2 border-b border-zinc-900"
+            className="text-sm font-semibold text-zinc-200 hover:text-indigo-400 py-2.5 border-b border-zinc-900 transition-colors"
           >
             Home
           </a>
           <a 
             href="#skills" 
             onClick={handleScroll('skills')} 
-            className="text-sm font-medium text-gray-350 hover:text-white py-2 border-b border-zinc-900"
+            className="text-sm font-semibold text-zinc-200 hover:text-indigo-400 py-2.5 border-b border-zinc-900 transition-colors"
           >
             Skills
           </a>
           <a 
             href="#projects" 
             onClick={handleScroll('projects')} 
-            className="text-sm font-medium text-gray-350 hover:text-white py-2 border-b border-zinc-900"
+            className="text-sm font-semibold text-zinc-200 hover:text-indigo-400 py-2.5 border-b border-zinc-900 transition-colors"
           >
             Projects
-          </a>
-          <a 
-            href="#contact" 
-            onClick={handleScroll('contact')} 
-            className="text-sm font-medium text-gray-350 hover:text-white py-2 border-b border-zinc-900"
-          >
-            Request Service
           </a>
           <a
             href="#contact"
             onClick={handleScroll('contact')}
-            className="w-full py-2.5 text-center text-xs font-semibold uppercase tracking-wider text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl transition-all duration-200"
+            className="w-full mt-2 py-3 text-center text-xs font-bold uppercase tracking-wider text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl transition-all duration-200 shadow-lg shadow-indigo-500/10"
           >
-            Let's Talk
+            Request Service
           </a>
         </div>
       )}
