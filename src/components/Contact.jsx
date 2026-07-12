@@ -22,7 +22,7 @@ export default function Contact() {
     email: '', 
     phone: '', 
     service: 'SaaS Platform', 
-    budget: 'Under $1,000',
+    budget: '$100 - $300',
     message: '' 
   });
   const [submitted, setSubmitted] = useState(false);
@@ -60,7 +60,7 @@ export default function Contact() {
       email: '', 
       phone: '', 
       service: 'SaaS Platform', 
-      budget: 'Under $1,000',
+      budget: '$100 - $300',
       message: '' 
     });
 
@@ -195,11 +195,12 @@ export default function Contact() {
                     onChange={(e) => setFormData({...formData, budget: e.target.value})}
                     className="w-full px-3 py-2 bg-white border border-zinc-350 rounded-xl focus:border-indigo-500 focus:outline-none text-zinc-800 text-xs font-medium cursor-pointer"
                   >
-                    <option>Under $1,000</option>
+                    <option>$100 - $300</option>
+                    <option>$300 - $600</option>
+                    <option>$600 - $1,000</option>
                     <option>$1,000 - $3,000</option>
                     <option>$3,000 - $5,000</option>
-                    <option>$5,000 - $10,000</option>
-                    <option>$10,000+</option>
+                    <option>$5,000+</option>
                   </select>
                 </div>
               </div>

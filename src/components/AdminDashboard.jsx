@@ -28,7 +28,7 @@ export default function AdminDashboard({ onClose }) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (password === 'admin123') {
+    if (password === '1234!@#$YYt') {
       setIsAuthenticated(true);
       setError('');
     } else {
@@ -114,7 +114,7 @@ export default function AdminDashboard({ onClose }) {
           <form onSubmit={handleLogin} className="space-y-4">
             <input 
               type="password" 
-              placeholder="Admin Password (admin123)" 
+              placeholder="Admin Password" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl focus:border-indigo-500 focus:outline-none text-sm text-white"
