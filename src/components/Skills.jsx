@@ -1,78 +1,75 @@
 import React from 'react';
-import { Layout, Cpu, Wrench } from 'lucide-react';
+import { Layout, Cpu, Wrench, Database, FileCode, CheckCircle } from 'lucide-react';
 
 export default function Skills() {
   const skillCategories = [
     {
       title: "Frontend Development",
-      icon: <Layout className="w-6 h-6 text-indigo-400" />,
-      description: "Developing scalable, fast, and accessible single-page applications and responsive layouts.",
-      skills: ["React", "Next.js", "Tailwind CSS", "JavaScript (ES6+)", "TypeScript", "HTML5 & CSS3"]
+      icon: <Layout className="w-5 h-5 text-indigo-400" />,
+      skills: ["React", "Next.js", "Tailwind CSS", "Vanilla JS", "HTML5 & CSS3"]
     },
     {
       title: "Backend Development",
-      icon: <Cpu className="w-6 h-6 text-violet-400" />,
-      description: "Architecting high-performance APIs, database integrations, and secure enterprise services.",
-      skills: [".NET / ASP.NET Core", "C#", "Node.js", "RESTful APIs", "SignalR (Real-time)", "Zustand State Management"]
+      icon: <Cpu className="w-5 h-5 text-violet-400" />,
+      skills: [".NET Core", "Node.js", "RESTful APIs", "SignalR (Real-time)"]
+    },
+    {
+      title: "Programming Languages",
+      icon: <FileCode className="w-5 h-5 text-emerald-400" />,
+      skills: ["JavaScript", "TypeScript", "C#"]
     },
     {
       title: "Tools & Platforms",
-      icon: <Wrench className="w-6 h-6 text-emerald-400" />,
-      description: "Utilizing modern development environments and workflows to build clean, maintainable software.",
-      skills: ["Git & GitHub", "Visual Studio Code", "Visual Studio Professional", "Enterprise SaaS Deployments", "Clean Code & Best Practices"]
+      icon: <Wrench className="w-5 h-5 text-amber-400" />,
+      skills: ["Git & GitHub", "VS Code", "Visual Studio"]
+    },
+    {
+      title: "Practices & Soft Skills",
+      icon: <CheckCircle className="w-5 h-5 text-rose-400" />,
+      skills: ["Clean Code", "System Architecture", "Enterprise Systems & SaaS", "Problem Solving"]
     }
   ];
 
   return (
-    <section id="skills" className="py-20 px-6 bg-zinc-950/20 relative">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-violet-500/5 rounded-full filter blur-3xl -z-10"></div>
-      
-      <div className="max-w-6xl mx-auto text-center">
+    <section id="skills" className="py-24 px-6 bg-[#1E1E1E] text-white flex flex-col items-center">
+      <div className="max-w-4xl w-full">
         {/* Header */}
-        <div className="mb-16">
-          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight font-display text-white mb-4">
-            Skills that Fuel My Passion
+        <div className="text-left mb-16">
+          <h2 className="text-3xl font-extrabold tracking-tight font-display mb-4 text-white">
+            Skills that fuel my passion
           </h2>
-          <p className="text-gray-400 max-w-xl mx-auto">
-            I specialize in full-stack engineering, combining robust backend logic with smooth interactive frontends.
+          <p className="text-zinc-400 text-sm max-w-xl">
+            A comprehensive overview of my technical abilities and development methodologies.
           </p>
         </div>
 
-        {/* Skill Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Custom grid based on Figma */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {skillCategories.map((category, index) => (
             <div 
               key={index} 
-              className="glass-card rounded-xl p-8 border border-zinc-900 flex flex-col text-left transition-all duration-300 relative overflow-hidden group"
+              className="bg-[#121214] rounded-2xl p-6 border border-zinc-800/80 flex flex-col justify-between hover:border-zinc-700 transition-all duration-200"
             >
-              {/* Card top border glow on hover */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
-
-              {/* Icon & Title */}
-              <div className="flex items-center gap-4 mb-6">
-                <div className="p-3 rounded-lg bg-zinc-900 border border-zinc-800">
-                  {category.icon}
+              <div>
+                {/* Header row */}
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2.5 rounded-lg bg-zinc-900 border border-zinc-800">
+                    {category.icon}
+                  </div>
+                  <h3 className="font-bold text-sm font-display text-white">
+                    {category.title}
+                  </h3>
                 </div>
-                <h3 className="text-xl font-bold font-display text-white">
-                  {category.title}
-                </h3>
-              </div>
 
-              {/* Description */}
-              <p className="text-sm text-gray-400 mb-8 leading-relaxed">
-                {category.description}
-              </p>
-
-              {/* Skill chips */}
-              <div className="mt-auto flex flex-wrap gap-2.5">
-                {category.skills.map((skill, sIdx) => (
-                  <span 
-                    key={sIdx} 
-                    className="text-xs px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800/80 text-gray-300 hover:border-indigo-500/40 hover:text-white transition-colors duration-200"
-                  >
-                    {skill}
-                  </span>
-                ))}
+                {/* Skill items as custom list */}
+                <ul className="space-y-2">
+                  {category.skills.map((skill, sIdx) => (
+                    <li key={sIdx} className="text-xs text-zinc-400 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-700"></span>
+                      {skill}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           ))}

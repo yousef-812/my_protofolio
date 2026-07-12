@@ -5,7 +5,7 @@ import erpCover from '../assets/erp_system_cover.jpg';
 import lmsCover from '../assets/lms_platform_cover.jpg';
 import shopCover from '../assets/ecommerce_store_cover.jpg';
 
-export default function Projects() {
+export default function ImpressiveWorks() {
   const projects = [
     {
       title: "SaaS Enterprise",
@@ -13,7 +13,7 @@ export default function Projects() {
       icon: <Cloud className="w-4 h-4 text-indigo-400" />,
       tech: ["React", "Tailwind CSS", ".NET Core"],
       cover: saasCover,
-      badge: "Cloud System"
+      link: "#"
     },
     {
       title: "ERP Master System",
@@ -21,7 +21,7 @@ export default function Projects() {
       icon: <Database className="w-4 h-4 text-violet-400" />,
       tech: ["React", "Zustand", ".NET (ASP.NET Core)"],
       cover: erpCover,
-      badge: "Dashboard"
+      link: "#"
     },
     {
       title: "Educational Platform (LMS)",
@@ -29,7 +29,7 @@ export default function Projects() {
       icon: <GraduationCap className="w-4 h-4 text-emerald-400" />,
       tech: ["React", "Vite", ".NET Core", "SignalR"],
       cover: lmsCover,
-      badge: "SignalR E-learning"
+      link: "#"
     },
     {
       title: "E-Commerce Store",
@@ -37,29 +37,24 @@ export default function Projects() {
       icon: <ShoppingBag className="w-4 h-4 text-pink-400" />,
       tech: ["React", "Tailwind CSS", ".NET"],
       cover: shopCover,
-      badge: "E-commerce"
+      link: "#"
     }
   ];
 
   return (
-    <section id="projects" className="py-24 px-6 bg-white text-[#1E1E1E] flex flex-col items-center">
+    <section className="py-20 px-6 bg-[#F4F4F6] text-[#1E1E1E] flex flex-col items-center border-t border-zinc-200">
       <div className="max-w-4xl w-full">
-        {/* Header */}
-        <div className="text-left mb-16">
-          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight font-display mb-4 text-[#1E1E1E] leading-tight">
-            welcome to my realm of wild projects and awesome creations
-          </h2>
-          <p className="text-zinc-500 text-sm">
-            Explore detailed summaries of systems I have designed and engineered.
-          </p>
-        </div>
+        {/* Heading */}
+        <h2 className="text-3xl font-extrabold tracking-tight font-display mb-12 text-[#1E1E1E]">
+          Impressive Works
+        </h2>
 
-        {/* 2-Column Grid (matching Figma) */}
+        {/* 2-Column Grid (matches Figma) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
             <div 
               key={index} 
-              className="bg-[#121214] text-white rounded-3xl overflow-hidden border border-zinc-800/80 flex flex-col justify-between hover:shadow-xl transition-all duration-300 group hover:-translate-y-1"
+              className="bg-[#121214] text-white rounded-3xl overflow-hidden border border-zinc-800 flex flex-col justify-between transition-all duration-300 relative group hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-500/5"
             >
               <div>
                 {/* Project Cover Image */}
@@ -72,9 +67,6 @@ export default function Projects() {
                   <div className="absolute top-4 left-4 p-2.5 rounded-full bg-zinc-900/90 border border-zinc-800/80 backdrop-blur-sm">
                     {project.icon}
                   </div>
-                  <span className="absolute top-4 right-4 text-[10px] uppercase font-bold tracking-widest px-2.5 py-1 rounded-full bg-zinc-900/90 border border-zinc-800/80 backdrop-blur-sm text-zinc-400">
-                    {project.badge}
-                  </span>
                 </div>
 
                 {/* Card Content */}
