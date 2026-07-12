@@ -1,27 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Star, CheckCircle, MessageSquare, AlertCircle } from 'lucide-react';
 
-const INITIAL_REVIEWS = [
-  {
-    id: 'seed-1',
-    name: 'Sarah Ahmed',
-    stars: 5,
-    satisfaction: 'Fully Matched',
-    comment: 'Yousef delivered the ERP accounting integration ahead of schedule. The double-entry general ledger posting flows are extremely accurate and structured.',
-    status: 'approved',
-    date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
-  },
-  {
-    id: 'seed-2',
-    name: 'Karim Ibrahim',
-    stars: 5,
-    satisfaction: 'Fully Matched',
-    comment: 'The Quran LMS platform is incredible! The embedded Daily.co WebRTC video lessons are seamless, and the SignalR chat system works instantly.',
-    status: 'approved',
-    date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
-  }
-];
-
 export default function Reviews() {
   const [reviews, setReviews] = useState([]);
   const [name, setName] = useState('');
@@ -37,8 +16,8 @@ export default function Reviews() {
     if (stored) {
       setReviews(JSON.parse(stored));
     } else {
-      localStorage.setItem('yousef_public_reviews', JSON.stringify(INITIAL_REVIEWS));
-      setReviews(INITIAL_REVIEWS);
+      localStorage.setItem('yousef_public_reviews', JSON.stringify([]));
+      setReviews([]);
     }
   }, [submitted]);
 
