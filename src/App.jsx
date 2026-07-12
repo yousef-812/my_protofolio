@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ImpressiveWorks from './components/ImpressiveWorks';
 import Skills from './components/Skills';
+import Reviews from './components/Reviews';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ProjectModal from './components/ProjectModal';
@@ -19,6 +20,7 @@ function App() {
         <Hero />
         <ImpressiveWorks onSelectProject={setSelectedProject} />
         <Skills />
+        <Reviews />
         <Contact />
       </main>
       <Footer onAdminClick={() => setShowAdmin(true)} />
@@ -31,7 +33,7 @@ function App() {
         />
       )}
 
-      {/* Admin Dashboard Modal */}
+      {/* Admin Dashboard Modal (Requests & Review moderation) */}
       {showAdmin && (
         <AdminDashboard 
           onClose={() => setShowAdmin(false)} 

@@ -1,25 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { X, Trash2, CheckCircle2, Download, Shield, AlertCircle } from 'lucide-react';
+import { X, Trash2, CheckCircle2, Download, Shield, AlertCircle, MessageSquare, ThumbsUp, ThumbsDown, Star } from 'lucide-react';
 
 export default function AdminDashboard({ onClose }) {
   const [requests, setRequests] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [activeTab, setActiveTab] = useState('requests'); // 'requests' or 'reviews'
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  // Load requests from localStorage
+  // Load data from localStorage
   useEffect(() => {
     if (isAuthenticated) {
-      const stored = localStorage.getItem('yousef_service_requests');
-      if (stored) {
-        setRequests(JSON.parse(stored));
+      // Load requests
+      const storedReq = localStorage.getItem('yousef_service_requests');
+      if (storedReq) {
+        setRequests(JSON.parse(storedReq));
+      }
+      
+      // Load reviews
+      const storedRev = localStorage.getItem('yousef_public_reviews');
+      if (storedRev) {
+        setReviews(JSON.parse(storedRev));
       }
     }
   }, [isAuthenticated]);
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Simple mock password
     if (password === 'admin123') {
       setIsAuthenticated(true);
       setError('');
@@ -28,7 +36,8 @@ export default function AdminDashboard({ onClose }) {
     }
   };
 
-  const handleToggleStatus = (id) => {
+  // REQUEST HANDLERS
+  const handleToggleRequestStatus = (id) => {
     const updated = requests.map(req => 
       req.id === id ? { ...req, status: req.status === 'pending' ? 'contacted' : 'pending' } : req
     );
@@ -36,13 +45,28 @@ export default function AdminDashboard({ onClose }) {
     localStorage.setItem('yousef_service_requests', JSON.stringify(updated));
   };
 
-  const handleDelete = (id) => {
+  const handleDeleteRequest = (id) => {
     const filtered = requests.filter(req => req.id !== id);
     setRequests(filtered);
     localStorage.setItem('yousef_service_requests', JSON.stringify(filtered));
   };
 
-  const handleExportJSON = () => {
+  // REVIEW HANDLERS
+  const handleUpdateReviewStatus = (id, newStatus) => {
+    const updated = reviews.map(rev => 
+      rev.id === id ? { ...rev, status: newStatus } : rev
+    );
+    setReviews(updated);
+    localStorage.setItem('yousef_public_reviews', JSON.stringify(updated));
+  };
+
+  const handleDeleteReview = (id) => {
+    const filtered = reviews.filter(rev => rev.id !== id);
+    setReviews(filtered);
+    localStorage.setItem('yousef_public_reviews', JSON.stringify(filtered));
+  };
+
+  const handleExportRequests = () => {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(requests, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
@@ -52,9 +76,28 @@ export default function AdminDashboard({ onClose }) {
     downloadAnchor.remove();
   };
 
+  const handleExportReviews = () => {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(reviews, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `client_reviews_${new Date().toISOString().split('T')[0]}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+  };
+
+  const renderStars = (count) => {
+    return Array.from({ length: 5 }).map((_, i) => (
+      <Star 
+        key={i} 
+        className={`w-3.5 h-3.5 ${i < count ? 'fill-amber-400 text-amber-400' : 'text-zinc-650 fill-zinc-800'}`} 
+      />
+    ));
+  };
+
   if (!isAuthenticated) {
     return (
-      <div className="fixed inset-0 z-55 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+      <div className="fixed inset-0 z-55 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
         <div className="bg-[#121214] text-white rounded-3xl border border-zinc-800 p-8 w-full max-w-sm relative shadow-2xl">
           <button onClick={onClose} className="absolute top-4 right-4 text-zinc-500 hover:text-white cursor-pointer">
             <X className="w-5 h-5" />
@@ -78,7 +121,7 @@ export default function AdminDashboard({ onClose }) {
               required
             />
             {error && (
-              <p className="text-xs text-rose-500 flex items-center gap-1.5">
+              <p className="text-xs text-rose-500 flex items-center gap-1.5 font-medium">
                 <AlertCircle className="w-3.5 h-3.5" />
                 {error}
               </p>
@@ -96,7 +139,7 @@ export default function AdminDashboard({ onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 z-55 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div className="fixed inset-0 z-55 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
       <div className="bg-[#121214] text-white rounded-3xl border border-zinc-800 w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col shadow-2xl relative">
         
         {/* Close Button */}
@@ -107,90 +150,191 @@ export default function AdminDashboard({ onClose }) {
           <X className="w-5 h-5" />
         </button>
 
-        {/* Header */}
-        <div className="p-8 pb-6 border-b border-zinc-900 flex justify-between items-center flex-wrap gap-4">
+        {/* Dashboard Header */}
+        <div className="p-8 pb-4 border-b border-zinc-900 flex justify-between items-center flex-wrap gap-4">
           <div className="flex items-center gap-3">
             <div className="p-3 rounded-2xl bg-zinc-900 border border-zinc-800 text-indigo-400">
               <Shield className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold font-display text-white">Service Requests Dashboard</h2>
-              <p className="text-xs text-zinc-500">Manage client inquires received through the website.</p>
+              <h2 className="text-2xl font-bold font-display text-white">Yousef's Control Dashboard</h2>
+              <p className="text-xs text-zinc-500">Monitor service inquiries and moderate client reviews.</p>
             </div>
           </div>
           <button 
-            onClick={handleExportJSON}
+            onClick={activeTab === 'requests' ? handleExportRequests : handleExportReviews}
             className="flex items-center gap-1.5 px-4 py-2 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white rounded-xl text-xs transition-all cursor-pointer"
           >
             <Download className="w-3.5 h-3.5" /> Export Data
           </button>
         </div>
 
-        {/* Scrollable Request List */}
+        {/* Tab Navigation */}
+        <div className="flex px-8 border-b border-zinc-900 text-sm">
+          <button 
+            onClick={() => setActiveTab('requests')}
+            className={`py-3 px-4 font-semibold border-b-2 transition-all duration-200 cursor-pointer ${activeTab === 'requests' ? 'border-indigo-500 text-white' : 'border-transparent text-zinc-500 hover:text-zinc-300'}`}
+          >
+            Service Inquiries ({requests.length})
+          </button>
+          <button 
+            onClick={() => setActiveTab('reviews')}
+            className={`py-3 px-4 font-semibold border-b-2 transition-all duration-200 cursor-pointer ${activeTab === 'reviews' ? 'border-indigo-500 text-white' : 'border-transparent text-zinc-500 hover:text-zinc-300'}`}
+          >
+            Review Moderation ({reviews.length})
+          </button>
+        </div>
+
+        {/* Content Container */}
         <div className="p-8 overflow-y-auto flex-1 space-y-4">
-          {requests.length === 0 ? (
-            <div className="text-center py-16 text-zinc-500">
-              <p className="text-sm">No service requests received yet.</p>
-            </div>
-          ) : (
-            requests.map((req) => (
-              <div 
-                key={req.id} 
-                className={`p-6 rounded-2xl border transition-all duration-200 flex justify-between items-start gap-4 ${req.status === 'contacted' ? 'bg-zinc-900/40 border-zinc-900/60 opacity-60' : 'bg-zinc-900/90 border-zinc-800'}`}
-              >
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2.5 flex-wrap">
-                    <span className="text-sm font-bold text-white font-display">{req.name}</span>
-                    
-                    {req.email && (
-                      <a href={`mailto:${req.email}`} className="text-xs text-indigo-400 hover:underline">{req.email}</a>
-                    )}
-                    
-                    {req.phone && (
-                      <a 
-                        href={`https://wa.me/${req.phone.replace(/[^0-9]/g, '')}`} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="text-xs text-emerald-400 hover:underline"
+          
+          {/* TAB 1: SERVICE REQUESTS */}
+          {activeTab === 'requests' && (
+            <>
+              {requests.length === 0 ? (
+                <div className="text-center py-16 text-zinc-500">
+                  <p className="text-sm">No service requests received yet.</p>
+                </div>
+              ) : (
+                requests.map((req) => (
+                  <div 
+                    key={req.id} 
+                    className={`p-6 rounded-2xl border transition-all duration-200 flex justify-between items-start gap-4 ${req.status === 'contacted' ? 'bg-zinc-900/40 border-zinc-900/60 opacity-60' : 'bg-zinc-900/90 border-zinc-800'}`}
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2.5 flex-wrap">
+                        <span className="text-sm font-bold text-white font-display">{req.name}</span>
+                        {req.email && (
+                          <a href={`mailto:${req.email}`} className="text-xs text-indigo-400 hover:underline">{req.email}</a>
+                        )}
+                        {req.phone && (
+                          <a 
+                            href={`https://wa.me/${req.phone.replace(/[^0-9]/g, '')}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="text-xs text-emerald-400 hover:underline"
+                          >
+                            WhatsApp: {req.phone}
+                          </a>
+                        )}
+                        <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-zinc-950 border border-zinc-900 text-zinc-400">
+                          {req.service}
+                        </span>
+                        {req.budget && (
+                          <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
+                            Budget: {req.budget}
+                          </span>
+                        )}
+                        <span className="text-[10px] text-zinc-500">{new Date(req.date).toLocaleDateString()}</span>
+                      </div>
+                      <p className="text-xs md:text-sm text-zinc-350 leading-relaxed max-w-2xl">{req.message}</p>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <button 
+                        onClick={() => handleToggleRequestStatus(req.id)}
+                        title={req.status === 'contacted' ? 'Mark as Pending' : 'Mark as Contacted'}
+                        className={`p-2 rounded-lg border transition-colors cursor-pointer ${req.status === 'contacted' ? 'bg-indigo-500/10 border-indigo-500/20 text-indigo-400' : 'bg-zinc-950 border-zinc-900 text-zinc-500 hover:text-white'}`}
                       >
-                        WhatsApp: {req.phone}
-                      </a>
-                    )}
-
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-zinc-950 border border-zinc-900 text-zinc-400">
-                      {req.service}
-                    </span>
-
-                    {req.budget && (
-                      <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
-                        Budget: {req.budget}
-                      </span>
-                    )}
-
-                    <span className="text-[10px] text-zinc-500">{new Date(req.date).toLocaleDateString()}</span>
+                        <CheckCircle2 className="w-4 h-4" />
+                      </button>
+                      <button 
+                        onClick={() => handleDeleteRequest(req.id)}
+                        title="Delete Request"
+                        className="p-2 bg-zinc-950 border border-zinc-900 text-zinc-500 hover:text-rose-500 hover:border-rose-500/20 rounded-lg transition-colors cursor-pointer"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
-                  <p className="text-xs md:text-sm text-zinc-350 leading-relaxed max-w-2xl">{req.message}</p>
-                </div>
-
-                <div className="flex gap-2">
-                  <button 
-                    onClick={() => handleToggleStatus(req.id)}
-                    title={req.status === 'contacted' ? 'Mark as Pending' : 'Mark as Contacted'}
-                    className={`p-2 rounded-lg border transition-colors cursor-pointer ${req.status === 'contacted' ? 'bg-indigo-500/10 border-indigo-500/20 text-indigo-400' : 'bg-zinc-950 border-zinc-900 text-zinc-500 hover:text-white'}`}
-                  >
-                    <CheckCircle2 className="w-4 h-4" />
-                  </button>
-                  <button 
-                    onClick={() => handleDelete(req.id)}
-                    title="Delete Request"
-                    className="p-2 bg-zinc-950 border border-zinc-900 text-zinc-500 hover:text-rose-500 hover:border-rose-500/20 rounded-lg transition-colors cursor-pointer"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            ))
+                ))
+              )}
+            </>
           )}
+
+          {/* TAB 2: REVIEW MODERATION */}
+          {activeTab === 'reviews' && (
+            <>
+              {reviews.length === 0 ? (
+                <div className="text-center py-16 text-zinc-500">
+                  <p className="text-sm">No client reviews received yet.</p>
+                </div>
+              ) : (
+                reviews.map((rev) => (
+                  <div 
+                    key={rev.id} 
+                    className={`p-6 rounded-2xl border transition-all duration-200 flex justify-between items-start gap-4 ${
+                      rev.status === 'approved' ? 'bg-zinc-900/60 border-zinc-800' : 
+                      rev.status === 'rejected' ? 'bg-zinc-900/20 border-zinc-950 opacity-55' : 
+                      'bg-indigo-950/20 border-indigo-500/30'
+                    }`}
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2.5 flex-wrap">
+                        <span className="text-sm font-bold text-white font-display">{rev.name}</span>
+                        <div className="flex">{renderStars(rev.stars)}</div>
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
+                          rev.satisfaction === 'Fully Matched' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
+                          rev.satisfaction === 'Partially Matched' ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' :
+                          'bg-rose-500/10 border-rose-500/20 text-rose-450'
+                        }`}>
+                          {rev.satisfaction}
+                        </span>
+                        
+                        {/* Moderation Status Badge */}
+                        <span className={`text-[9px] uppercase font-bold px-2 py-0.5 rounded ${
+                          rev.status === 'approved' ? 'bg-emerald-550/20 text-emerald-400 border border-emerald-550/30' :
+                          rev.status === 'rejected' ? 'bg-rose-550/20 text-rose-400 border border-rose-550/30' :
+                          'bg-indigo-550/25 text-indigo-300 border border-indigo-550/30 animate-pulse'
+                        }`}>
+                          {rev.status}
+                        </span>
+                        
+                        <span className="text-[10px] text-zinc-500">{new Date(rev.date).toLocaleDateString()}</span>
+                      </div>
+                      <p className="text-xs md:text-sm text-zinc-350 leading-relaxed italic max-w-2xl">
+                        "{rev.comment}"
+                      </p>
+                    </div>
+
+                    <div className="flex gap-2">
+                      {/* Approve Review Button */}
+                      {rev.status !== 'approved' && (
+                        <button 
+                          onClick={() => handleUpdateReviewStatus(rev.id, 'approved')}
+                          title="Approve &amp; Publish"
+                          className="p-2 bg-zinc-950 border border-zinc-900 text-zinc-500 hover:text-emerald-400 hover:border-emerald-500/20 rounded-lg transition-colors cursor-pointer"
+                        >
+                          <ThumbsUp className="w-4 h-4" />
+                        </button>
+                      )}
+                      
+                      {/* Reject Review Button */}
+                      {rev.status !== 'rejected' && (
+                        <button 
+                          onClick={() => handleUpdateReviewStatus(rev.id, 'rejected')}
+                          title="Reject Review"
+                          className="p-2 bg-zinc-950 border border-zinc-900 text-zinc-500 hover:text-amber-500 hover:border-amber-500/20 rounded-lg transition-colors cursor-pointer"
+                        >
+                          <ThumbsDown className="w-4 h-4" />
+                        </button>
+                      )}
+                      
+                      {/* Delete Review Button */}
+                      <button 
+                        onClick={() => handleDeleteReview(rev.id)}
+                        title="Delete Review"
+                        className="p-2 bg-zinc-950 border border-zinc-900 text-zinc-500 hover:text-rose-500 hover:border-rose-500/20 rounded-lg transition-colors cursor-pointer"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </>
+          )}
+
         </div>
       </div>
     </div>
