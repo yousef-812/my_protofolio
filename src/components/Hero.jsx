@@ -27,14 +27,14 @@ export default function Hero() {
             </span>
             {/* Top-right: Mini paragraph */}
             <p className="text-[10px] md:text-xs text-zinc-500 max-w-[200px] md:max-w-[280px] text-right leading-relaxed font-medium">
-              Passionate Creative Designer and Developer, dedicated to crafting innovative solutions and exceptional digital experiences through modern technologies.
+              Passionate Full-Stack Web Developer, dedicated to crafting innovative solutions and exceptional digital experiences through modern technologies.
             </p>
           </div>
 
           {/* Center Background Text & Portrait Image */}
           <div className="absolute inset-0 flex items-center justify-center z-0 select-none pointer-events-none">
             <h1 className="text-[55px] sm:text-[90px] md:text-[110px] font-black text-white/80 tracking-tighter leading-none text-center uppercase font-display">
-              Developer &amp;<br />Designer
+              Web<br />Developer
             </h1>
           </div>
 
